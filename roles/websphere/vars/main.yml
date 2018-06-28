@@ -25,7 +25,8 @@ websphere_admin_pwd: "mtogov123"
 was_nodename: Node01
 dmgr_profile_name: QADmgr01
 profile_name: Custom01_Node_QA
-ibm_repository_url: http://sdcgisazapmdw22.cihs.ad.gov.on.ca/index.html/
+#ibm_repository_url: http://sdcgisazapmdw22.cihs.ad.gov.on.ca/index.html/
+ibm_repository_url: http://192.168.3.111
 bin_file: agent.installer.linux.gtk.x86_64_1.8.8000.20171130_1105.zip
 
 imgr_version: 1.8.8000.20171130_1105
