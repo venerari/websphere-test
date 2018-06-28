@@ -1,0 +1,8 @@
+---
+
+ - hosts: all
+   become_method: runas  
+   
+   roles:
+     - validate-windows3
+     

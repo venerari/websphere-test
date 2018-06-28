@@ -1,0 +1,14 @@
+---
+# tasks file for apache_wlplugin_binary
+- name: install apache
+  yum: name={{ item }} state=present
+  with_items:
+    - httpd
+    - mod_ssl
+
+### may need to change to get_url module        
+- name: copy WebLogic Plugin Lib files
+  copy:
+    src: "{{ source_location_WL_Plugin_Lib }}"
+    dest: "{{ dest_location_WL_Plugin_Lib }}"
+

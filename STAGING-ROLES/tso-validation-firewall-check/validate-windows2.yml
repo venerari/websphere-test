@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  become_method: runas
+  #gather_facts: true
+
+  roles:
+    - validate-windows2

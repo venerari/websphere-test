@@ -1,0 +1,92 @@
+---
+- name: Install Java 1.7 and some basic dependencies
+  yum: 
+    name: "{{ item }}"
+    state: present
+  with_items:
+   - unzip
+   - java-1.7.0-openjdk
+   - libselinux-python
+   - libsemanage-python
+
+- name: Download JBoss from jboss.org
+  get_url: 
+    url: http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.zip 
+    dest: /apps/jboss-poc/jboss-as-7.1.1.Final.zip
+
+- name: Extract archive
+  unarchive: 
+    dest: /apps/jboss-poc/test1 
+    src: /apps/jboss-poc/jboss-as-7.1.1.Final.zip 
+    creates: /apps/jboss-poc/test1/jboss-as 
+    copy: no 
+
+  # Rename the dir to avoid encoding the version in the init script
+- name: Rename install directory
+  command: chdir=/apps/jboss-poc/test1 /bin/mv jboss-as-7.1.1.Final jboss-as creates=/apps/jboss-poc/test1/jboss-as
+
+- name: Copying standalone.xml configuration file
+  template: 
+    src: standalone.xml 
+    dest: /apps/jboss-poc/test1/jboss-as/standalone/configuration/
+  notify: restart jboss
+
+- name: Add group "jboss"
+  group: 
+    name: jboss
+
+- name: Add user "jboss"
+  user: 
+    name: jboss 
+    group: jboss 
+    home: /home/jboss/
+
+- name: Change ownership of JBoss installation
+  file: 
+    path: /apps/jboss-poc/test1/jboss-as/ 
+    owner: jboss 
+    group: jboss 
+    state: directory 
+    recurse: yes
+
+- name: Copy the init script
+  copy: 
+    src: jboss-as-standalone.sh 
+    dest: /etc/init.d/jboss 
+    mode: 0777
+
+- name: Workaround for systemd bug
+  service:
+    name: jboss
+    state: started 
+    ignore_errors: yes
+
+- name: deploy iptables rules
+  template: 
+    src: iptables-save 
+    dest: /etc/sysconfig/iptables
+  when: ansible_distribution_major_version != "7" 
+  notify: restart iptables
+
+- name: Ensure that firewalld is installed
+  yum: 
+    name: firewalld 
+    state: present
+  when: ansible_distribution_major_version == "7" 
+
+- name: Ensure that firewalld is started
+  service: 
+    name: firewalld 
+    state: started
+  when: ansible_distribution_major_version == "7" 
+
+- name: deploy firewalld rules
+  firewalld: 
+    immediate: yes 
+    port: "{{ item }}" 
+    state: enabled 
+    permanent: yes
+  when: ansible_distribution_major_version == "7"
+  with_items:
+  - "{{ http_port }}/tcp"
+  - "{{ https_port }}/tcp"

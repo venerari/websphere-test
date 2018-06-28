@@ -1,0 +1,2 @@
+[tso]
+localhost ansible_connection=local

@@ -1,0 +1,8 @@
+# to be added: check if apache is running
+
+# only run when apache is running. also mark changed_when to true if start is needed.
+- name: using shell to stop apache
+  shell: apachectl -k stop
+  register: stop_apache
+
+- debug: var=stop_apache.stdout_lines

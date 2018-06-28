@@ -1,0 +1,66 @@
+---
+- name:  Add content to OHS http configuration file
+  lineinfile: 
+    dest: "{{component_config_dir}}/httpd.conf"
+    line: '{{ item }}'
+  with_items: 
+    - '<VirtualHost _default_:7777>'
+    - 'ServerName {{ansible_hostname}}.{{domain_name}}:7777'
+    - 'RewriteEngine On'
+    - 'RewriteLogLevel 3'
+    - 'RewriteLog logs/rewrite_log'
+    - 'ProxyRequests Off'
+    - 'ProxyPreserveHost On'
+    - 'ProxyPass / {{weblogic_app_url}}:8010'
+    - 'ProxyPassReverse / {{weblogic_app_url}}:8010'
+    - '</VirtualHost>'
+  register: configure_httpd
+  
+- name: Comment default key wallet path in ssl configuration
+  replace: 
+    path: "{{component_config_dir}}/ssl.conf"
+    regexp: '^#SSLWallet "${ORACLE_INSTANCE}/config/${COMPONENT_TYPE}/${COMPONENT_NAME}/keystores/default"'
+    replace: '^SSLWallet "${ORACLE_INSTANCE}/config/${COMPONENT_TYPE}/${COMPONENT_NAME}/keystores/ebs/wallet""'
+  register: comment_wallet
+  
+- name: Add content to OHS ssl configuration file
+  blockinfile: 
+    path: "{{component_config_dir}}/ssl.conf"
+    insertafter: "downgrade-1.0 force-response-1.0"
+    content: |
+      ServerName sdcgisazwhweb12.cihs.ad.gov.on.ca:443
+      RewriteEngine On
+      RewriteLogLevel 3
+      RewriteLog logs/rewrite_log
+           </IfModule>
+           <IfModule mod_proxy.c>
+           SSLProxyEngine On
+           ProxyPreserveHost On
+           ProxyRequests off
+           ProxyPass / {{weblogic_app_url}}:4453/
+           ProxyPassReverse / {{weblogic_app_url}}:4453/
+           SSLProxyWallet "${ORACLE_INSTANCE}/config/${COMPONENT_TYPE}/${COMPONENT_NAME}/keystores/ebs/wallet"
+  register: configure_ssl
+  
+- name: Copy application keys to OHS keystore
+  copy:
+    src: roles/ohs/files/{{env}}
+    dest: "{{component_config_dir}}/OHS/ohs1/keystores/{{env}}"
+    
+- name: Stop OHS http instance services
+  shell: "{{ohs_bin_dir}}/opmnctl stopall"
+  register: stop_ohs_ins
+  
+- debug: var=stop_ohs_ins.stdout_lines
+
+- name: start OHS http instance services
+  shell: "{{ohs_bin_dir}}/opmnctl startall"
+  register: start_ohs_ins
+  
+- debug: var=start_ohs_ins.stdout_lines
+
+- name: check OHS version and properties
+  shell: "{{middleware_dir}}/Oracle_WT1/OPatch/opatch lsinventory"
+  register: check_ohs_version_properties
+  
+- debug: var=check_ohs_version_properties.stdout_lines

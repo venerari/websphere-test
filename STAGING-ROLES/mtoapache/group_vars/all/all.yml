@@ -1,0 +1,17 @@
+---
+### the whole file to be deleted 
+# vars neither related to app nor related to enviroments (DEV or UAT)
+
+##### env_dtup is set to test for now. going to use as extra_var 
+env_dtup: test
+
+apache_source_root: /etc/ansible/apache_source/
+
+source_location_WL_Plugin_Lib: "{{ apache_source_root }}/tso_managed/WebLogic_Plugin/lib/"
+dest_location_WL_Plugin_Lib: /opt/wlplugin/lib
+
+##### app_path is set to ARIS for now. going to use as extra_var
+#no need any more since using .zip instead of copying unzipped #source_app_static_content_path: "{{ apache_source_root }}ApacheARIS_Inter/arisW/content/"
+#no need any more since using .zip instead of copying unzipped #dest_app_static_content_path: /var/www/html/edtW
+
+

@@ -1,0 +1,31 @@
+---
+app_user: appopa1
+app_dir: /opaapp_01
+app_group: tsoapps
+super_user: root
+
+filesystem_type: ext4
+physical_disk: /dev/sdc1
+physical_disk_raw: /dev/sdc
+
+websphere_admin: ibmadmin
+websphere_admin_pwd: "mtogov123"
+
+app_profile_server: server1
+profile_name: AppSrv01
+was_nodename: Node01
+
+#ibm_repository_url: https://sdcdev01stal01ltcrus.blob.core.windows.net/tso/RLSO/software/WASv855_and_%20IHS/
+#bin_file: agent.installer.linux.gtk.x86_64_1.8.8000.20171130_1105.zip?st=2018-06-11T15%3A42%3A15Z&se=2020-06-12T15%3A42%3A00Z&sp=rl&sv=2017-07-29&sr=b&sig=L3zu%2FRuHd68k%2Bs0B1u%2BEoLwVhWIMgAeuMlU90EA25sY%3D
+#was_zip_files: 
+#<<<<<<< HEAD
+#  - { bf: "WAS_V8.5.5_1_OF_3.zip?st=2018-06-11T19%3A54%3A09Z&se=2020-06-12T19%3A54%3A00Z&sp=rl&sv=2017-07-29&sr=b&sig=U1exTSeS2ei4F%2BsDvVUlOFlZkG%2FUlizTzX06D0Gsaus%3D" }
+#  - { bf: "WAS_V8.5.5_2_OF_3.zip?st=2018-06-11T15%3A40%3A08Z&se=2020-06-12T15%3A40%3A00Z&sp=rl&sv=2017-07-29&sr=b&sig=TZCeSVkWrSnnZAzrx46wG%2FNnyZpZev0rbDFgbzPgtOI%3D" }
+#  - { bf: "WAS_V8.5.5_3_OF_3.zip?st=2018-06-11T15%3A39%3A38Z&se=2020-06-12T15%3A39%3A00Z&sp=rl&sv=2017-07-29&sr=b&sig=J2LhKUvgtipBWtsvq0e1yc%2BCduRnTw8jIYQO6ri2848%3D" }
+
+#added for was script testing full
+#=======
+#  - { bf: "\WAS_V8.5.5_1_OF_3.zip?st=2018-06-11T19%3A54%3A09Z&se=2020-06-12T19%3A54%3A00Z&sp=rl&sv=2017-07-29&sr=b&sig=U1exTSeS2ei4F%2BsDvVUlOFlZkG%2FUlizTzX06D0Gsaus%3D\" }
+#  - { bf: "WAS_V8.5.5_2_OF_3.zip?st=2018-06-11T15%3A40%3A08Z&se=2020-06-12T15%3A40%3A00Z&sp=rl&sv=2017-07-29&sr=b&sig=TZCeSVkWrSnnZAzrx46wG%2FNnyZpZev0rbDFgbzPgtOI%3D" }
+#  - { bf: "WAS_V8.5.5_3_OF_3.zip?st=2018-06-11T15%3A39%3A38Z&se=2020-06-12T15%3A39%3A00Z&sp=rl&sv=2017-07-29&sr=b&sig=J2LhKUvgtipBWtsvq0e1yc%2BCduRnTw8jIYQO6ri2848%3D" }
+#>>>>>>> development

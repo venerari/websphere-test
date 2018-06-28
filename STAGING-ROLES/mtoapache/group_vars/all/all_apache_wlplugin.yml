@@ -1,0 +1,8 @@
+# vars neither related to app nor related to enviroments (DEV or UAT)
+
+##### env_dtup is set to test for now. going to use as extra_var 
+
+apache_source_root: /etc/ansible/apache_source/
+
+source_location_WL_Plugin_Lib: "{{ apache_source_root }}/tso_managed/WebLogic_Plugin/lib/"
+dest_location_WL_Plugin_Lib: /opt/wlplugin/lib

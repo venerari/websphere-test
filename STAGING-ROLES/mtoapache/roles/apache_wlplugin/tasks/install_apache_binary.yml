@@ -1,0 +1,7 @@
+- name: install apache (and unzip)
+  yum: name={{ item }} state=present
+  with_items:
+    - httpd
+    - mod_ssl
+    - unzip
+    - libaio

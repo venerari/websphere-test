@@ -1,0 +1,5 @@
+---
+# tasks file for weblogic
+
+- include_tasks: ohs_config.yml
+  when: config_ohs | default(False) == True
